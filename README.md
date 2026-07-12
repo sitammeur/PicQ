@@ -1,8 +1,8 @@
 # PicQ
 
-Visual Question Answering is answering open-ended questions based on an image. They output natural language responses to natural language questions about the content of an image. This project uses one of the popular multimodal models, [**MiniCPM-o 2.6**](https://huggingface.co/openbmb/MiniCPM-o-2_6) from the Hugging Face model hub.
+Visual Question Answering is answering open-ended questions based on an image. They output natural language responses to natural language questions about the content of an image. This project uses one of the popular multimodal models, [**MiniCPM-o 4.5**](https://huggingface.co/openbmb/MiniCPM-o-4_5) from the Hugging Face model hub.
 
-[**MiniCPM-o 2.6**](https://huggingface.co/openbmb/MiniCPM-o-2_6) is the latest and most capable model in the MiniCPM-o series, built on **SigLip-400M**, **Whisper-medium-300M**, **ChatTTS-200M**, and **Qwen2.5-7B** with a total of 8B parameters. MiniCPM-o 2.6 significantly improves upon its predecessor, boasting advanced real-time speech conversation and multimodal live streaming capabilities. It surpasses proprietary models in visual and speech understanding, offers efficient processing, and provides easy usage options.
+[**MiniCPM-o 4.5**](https://huggingface.co/openbmb/MiniCPM-o-4_5) is the latest and most capable model in the MiniCPM-o series. The model is built in an end-to-end fashion based on **SigLip2**, **Whisper-medium**, **CosyVoice2**, and **Qwen3-8B** with a total of 9B parameters. It exhibits a significant performance improvement, and introduces new features for full-duplex multimodal live streaming.
 
 ## Project Structure
 
@@ -34,26 +34,13 @@ The project is structured as follows:
 - Gradio (for the web application)
 - Hugging Face Spaces (for hosting the gradio application)
 
-## Getting Started
-
-To get started with this project, follow the steps below:
-
-1. Clone the repository: `git clone https://github.com/sitamgithub-MSIT/PicQ.git`
-2. Change the directory: `cd PicQ`
-3. Create a virtual environment: `python -m venv tutorial-env`
-4. Activate the virtual environment: `tutorial-env\Scripts\activate`
-5. Install the required dependencies: `pip install -r requirements.txt`
-6. Run the Gradio application: `python app.py`
-
-Now, open up your local host and see the web application running. For more information, please refer to the Gradio documentation [here](https://www.gradio.app/docs/interface). Also, a live version of the application can be found [here](https://huggingface.co/spaces/sitammeur/PicQ).
-
-**Note**: You need a Hugging Face access token to run the application. You can get the token by signing up on the Hugging Face website and creating a new token from the settings page. After getting the token, you can set it as an environment variable `ACCESS_TOKEN` in your system by creating a `.env` file in the project's root directory. Check the `.env.example` file for reference.
-
-The application is hosted on Hugging Face Spaces running on a GPU. You are expected to have a GPU for local use when running the application. If you do not have a GPU, you can explore the local inference option provided by the model [here](https://github.com/OpenBMB/llama.cpp/blob/minicpm-omni/examples/llava/README-minicpmo2.6.md).
-
 ## Usage
 
 The web application allows you to input an image and a question. The model will then generate an answer based on the image and the question. It can assist visually impaired individuals by providing access to web and real-world images, improving image retrieval by retrieving specific characteristics, and enabling video search by retrieving specific snippets or timestamps based on search queries. The application can also be applied in educational settings to provide a more interactive learning experience.
+
+## Results
+
+For results, refer to the `assets/` directory for the output screenshots, which show the application in action.
 
 ## Contributing
 

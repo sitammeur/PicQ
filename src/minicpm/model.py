@@ -4,7 +4,7 @@ import sys
 from dotenv import load_dotenv
 from typing import Any
 import torch
-from transformers import AutoModel, AutoTokenizer, AutoProcessor
+from transformers import AutoModel
 
 # Local imports
 from src.logger import logging
@@ -18,9 +18,9 @@ load_dotenv()
 access_token = os.environ.get("ACCESS_TOKEN")
 
 
-def load_model_tokenizer_and_processor(model_name: str, device: str) -> Any:
+def load_model(model_name: str, device: str) -> Any:
     """
-    Load the model, tokenizer and processor.
+    Load the vision-only MiniCPM-o model.
 
     Args:
         - model_name (str): The name of the model to load.
@@ -28,11 +28,10 @@ def load_model_tokenizer_and_processor(model_name: str, device: str) -> Any:
 
     Returns:
         - model: The loaded model.
-        - tokenizer: The loaded tokenizer.
-        - processor: The loaded processor.
     """
     try:
-        # Load the model, tokenizer and processor
+        # Load the model. init_audio/init_tts are disabled since neither app
+        # uses the speech branch of the omni model -- vision-only inference.
         model = AutoModel.from_pretrained(
             model_name,
             trust_remote_code=True,
@@ -41,23 +40,17 @@ def load_model_tokenizer_and_processor(model_name: str, device: str) -> Any:
             init_vision=True,
             init_audio=False,
             init_tts=False,
-            token=access_token
+            token=access_token,
         )
         model = model.eval().to(device=device)
-        tokenizer = AutoTokenizer.from_pretrained(
-            model_name, trust_remote_code=True, token=access_token
-        )
-        processor = AutoProcessor.from_pretrained(
-            model_name, trust_remote_code=True, token=access_token
-        )
 
-        # Log the successful loading of the model, tokenizer and processor
-        logging.info("Model, tokenizer and processor loaded successfully.")
+        # Log the successful loading of the model
+        logging.info("Model loaded successfully.")
 
-        # Return the model, tokenizer and processor
-        return model, tokenizer, processor
+        # Return the model
+        return model
 
-    # Handle exceptions that may occur during model, tokenizer and processor loading
+    # Handle exceptions that may occur during model loading
     except Exception as e:
         # Custom exception handling
         raise CustomExceptionHandling(e, sys) from e

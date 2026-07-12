@@ -4,25 +4,19 @@ import gradio as gr
 import spaces
 
 # Local imports
-from src.config import (
-    device,
-    model_name,
-    sampling,
-    stream,
-    repetition_penalty,
-)
-from src.minicpm.model import load_model_tokenizer_and_processor
+from src.config import device, model_name, sampling, enable_thinking
+from src.minicpm.model import load_model
 from src.logger import logging
 from src.exception import CustomExceptionHandling
 
 
-# Model, tokenizer and processor
-model, tokenizer, processor = load_model_tokenizer_and_processor(model_name, device)
+# Model
+model = load_model(model_name, device)
 
 
 @spaces.GPU(duration=120)
 def describe_image(
-    image: str, 
+    image: str,
     question: str,
     temperature: float,
     top_p: float,
@@ -46,23 +40,20 @@ def describe_image(
     try:
         # Check if image or question is None
         if not image or not question:
-            gr.Warning("Please provide an image and a question.")
+            raise gr.Error("Please provide an image and a question.")
 
         # Message format for the model
         msgs = [{"role": "user", "content": [image, question]}]
 
         # Generate the answer
         answer = model.chat(
-            image=None,
             msgs=msgs,
-            tokenizer=tokenizer,
-            processor=processor,
-            sampling=sampling,
-            stream=stream,
+            use_tts_template=False,
+            enable_thinking=enable_thinking,
+            do_sample=sampling,
             top_p=top_p,
             top_k=top_k,
             temperature=temperature,
-            repetition_penalty=repetition_penalty,
             max_new_tokens=max_new_tokens,
         )
 
@@ -70,7 +61,7 @@ def describe_image(
         logging.info("Answer generated successfully.")
 
         # Return the answer
-        return "".join(answer)
+        return answer
 
     # Handle exceptions that may occur during answer generation
     except Exception as e:
